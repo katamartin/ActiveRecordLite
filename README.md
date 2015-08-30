@@ -14,21 +14,21 @@ class, thus inheriting its features, including:
     insertions
 
 ## Convention Over configuration
-`
+```
   def self.table_name
     @table_name ||= self.to_s.tableize
     @table_name
   end
-`
+```
   A model's `table_name` is inferred using ActiveSupport's `String#tableize`
   method.
 
   However, a model's table_name may be configured by the user:
-`
+```
   def self.table_name=(table_name)
     @table_name = table_name
   end
-`
+```
 
 ## Screenshots
 
