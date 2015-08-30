@@ -15,19 +15,40 @@ class, thus inheriting its features, including:
 
 ## Convention Over configuration
 ```
-  def self.table_name
-    @table_name ||= self.to_s.tableize
-    @table_name
-  end
+def self.table_name
+  @table_name ||= self.to_s.tableize
+  @table_name
+end
 ```
   A model's `table_name` is inferred using ActiveSupport's `String#tableize`
   method.
 
-  However, a model's table_name may be configured by the user:
+  However, a model's `table_name` may be configured by the user:
 ```
-  def self.table_name=(table_name)
-    @table_name = table_name
-  end
+def self.table_name=(table_name)
+  @table_name = table_name
+end
+```
+
+## Query Execution
+
+Using `SQLite3::Database`'s `#execute` method and a heredoc with interpolated
+query parameters, the database is queried for entries with column entries
+matching each of the key-value pairs in the params hash:
+```
+def self.where(params)
+  eqs = params.keys.map { |attr_name| "#{attr_name} = ?" }.join(" AND ")
+  results = DBConnection.execute(<<-SQL, *params.values)
+    SELECT
+      *
+    FROM
+      #{self.table_name}
+    WHERE
+      #{eqs}
+  SQL
+
+  self.parse_all(results)
+end
 ```
 
 ## Screenshots
