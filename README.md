@@ -10,6 +10,25 @@ class, thus inheriting its features, including:
   * Define `has_many`, `belongs_to`, `has_one_through` associations
   * Inferring conventional association and table parameters, while allowing for
     configuration
+  * Uses instance of `SQLite3::Database` to execute queries, updates, and
+    insertions
+
+## Convention Over configuration
+`
+  def self.table_name
+    @table_name ||= self.to_s.tableize
+    @table_name
+  end
+`
+  A model's `table_name` is inferred using ActiveSupport's `String#tableize`
+  method.
+
+  However, a model's table_name may be configured by the user:
+`
+  def self.table_name=(table_name)
+    @table_name = table_name
+  end
+`
 
 ## Screenshots
 
