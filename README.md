@@ -15,9 +15,9 @@ class, thus inheriting its features, including:
 
 ## Convention Over configuration
 `
-  def self.table_name \n
-    @table_name ||= self.to_s.tableize \n
-    @table_name \n
+  def self.table_name
+    @table_name ||= self.to_s.tableize
+    @table_name
   end
 `
   A model's `table_name` is inferred using ActiveSupport's `String#tableize`
